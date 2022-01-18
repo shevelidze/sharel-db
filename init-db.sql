@@ -1,11 +1,17 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(70) UNIQUE NOT NULL,
-    password_hash VARCHAR(100) NOT NULL,
-    password_set_timestamp TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash VARCHAR(64) NOT NULL,
     registration_timestamp TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp
+);
+CREATE TABLE refreshSessions (
+    user_id INT REFERENCES users(id) ON DELETE CASCADE,
+    refresh_token_hash TEXT PRIMARY KEY,
+    user_agent TEXT NOT NULL,
+    ip_address TEXT NOT NULL,
+    authentification_timestamp TIMESTAMP WITH TIME ZONE DEFAULT current_timestamp
 );
 CREATE TABLE posts (
     id SERIAL PRIMARY KEY,
